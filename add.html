@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guitar Inventory Management</title>
+<style>
+  body {
+    background-color: #a5702a; /* Brown background */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #a5702a; /* Brown background */
+    color: white; /* White text for better contrast */
+  }
+  .header h1 {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .nav {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+  }
+  .nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: black; /* Black text for contrast */
+  }
+  .nav a:hover {
+    text-decoration: underline;
+  }
+  .container {
+    width: 80%;
+    margin: auto;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .form-group button {
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  .form-group button:hover {
+    background-color: grey;
+  }
+  
+</style>
+<script>
+    function handleFormSubmit(event) {
+      event.preventDefault(); // Prevent the default form submission
+      
+      // Get form data
+      var formData = {
+        serialNumber: document.getElementById('serialNumber').value,
+        price: document.getElementById('price').value,
+        builder: document.getElementById('builder').value,
+        model: document.getElementById('model').value,
+        type: document.getElementById('type').value,
+        backWood: document.getElementById('backWood').value,
+        topWood: document.getElementById('topWood').value
+      };
+      
+      // Convert to JSON string
+      var jsonData = JSON.stringify(formData, null, 2);
+      
+      // Display the JSON data
+      alert(jsonData);
+    }
+</script>
+</head>
+<body>
+<div class="header">
+     <a href="home.html" class="header">
+     <h1>Guitar Inventory Management</h1>
+  <div class="nav">
+    <a href="About.html">About</a>
+    <a>Add</a>
+    <a href="search.html">Search</a>
+  </div>
+</div>
+<div class="container">
+    <form onsubmit="handleFormSubmit(event)">
+      <div class="form-group">
+        <label for="serialNumber">Serial number:</label>
+        <input type="text" id="serialNumber" name="serialNumber">
+      </div>
+      <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price">
+      </div>
+      <div class="form-group">
+        <label for="builder">Builder:</label>
+        <input type="text" id="builder" name="builder">
+      </div>
+      <div class="form-group">
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model">
+      </div>
+      <div class="form-group">
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type">
+      </div>
+      <div class="form-group">
+        <label for="backWood">Back wood:</label>
+        <input type="text" id="backWood" name="backWood">
+      </div>
+      <div class="form-group">
+        <label for="topWood">Top wood:</label>
+        <input type="text" id="topWood" name="topWood">
+      </div>
+      <div class="form-group">
+        <button onclick="handleFormSubmit()">Add the guitar</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
