@@ -97,8 +97,8 @@
     <label for="backWood">Back wood:</label>
     <input type="text" id="backWood" name="backWood">
     
-    <label for="topWood">Top wood:</label>
-    <input type="text" id="topWood" name="topWood">
+    <label for="topWoop">Top wood:</label>
+    <input type="text" id="topWoop" name="topWoop">
     
     <button onclick="searchGuitars()">Search</button>
   </div>
@@ -121,39 +121,44 @@
     </table>
   </div>
   <script>
-    var guitars = [
-  { serialNumber: "001", builder: "Fender", model: "Stratocaster", type: "Electric", backWood: "Alder", topWood: "Maple", price: 1299.99 },
-  { serialNumber: "002", builder: "Gibson", model: "Les Paul", type: "Electric", backWood: "Mahogany", topWood: "Maple", price: 2499.49 },
-  { serialNumber: "003", builder: "Martin", model: "D-28", type: "Acoustic", backWood: "Rosewood", topWood: "Spruce", price: 2999.99 },
-  { serialNumber: "004", builder: "Taylor", model: "814ce", type: "Acoustic", backWood: "Rosewood", topWood: "Spruce", price: 3499.99 },
-  { serialNumber: "005", builder: "PRS", model: "Custom 24", type: "Electric", backWood: "Mahogany", topWood: "Maple", price: 3999.99 }
-];
+    async function searchGuitars() {
+    let builder = document.getElementById('builder').value;
+    let model = document.getElementById('model').value;
+    let type = document.getElementById('type').value;
+    let backWood = document.getElementById('backWood').value;
+    let topWoop = document.getElementById('topWoop').value;
 
-function searchGuitars(){
-  var builder = document.getElementById('builder').value;
-  var model = document.getElementById('model').value;
-  var type = document.getElementById('type').value;
-  var backWood = document.getElementById('backWood').value;
-  var topWood = document.getElementById('topWood').value;
+    try {
+        let response = await fetch('http://localhost:8018/search?builder=' + builder +
+            '&model=' + model + '&type=' + type + '&backWood=' + backWood + '&topWoop=' + topWoop);
+        let data = await response.json();
+        if (response.ok) {
+            displaySearchResults(data);
+        } else {
+            alert("Error: " + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert("Something went wrong. Please try again or contact the customer support team.");
+    }
+}
 
-  var results = guitars.filter(function(guitar) {
-    return (!builder || guitar.builder.toLowerCase().includes(builder.toLowerCase())) &&
-           (!model || guitar.model.toLowerCase().includes(model.toLowerCase())) &&
-           (!type || guitar.type.toLowerCase().includes(type.toLowerCase())) &&
-           (!backWood || guitar.backWood.toLowerCase().includes(backWood.toLowerCase())) &&
-           (!topWood || guitar.topWood.toLowerCase().includes(topWood.toLowerCase()));
-  });
+function displaySearchResults(results) {
+    let tableBody = document.querySelector("#resultsTable tbody");
+    tableBody.innerHTML = ""; // Clear existing rows
 
-  var table = document.getElementById('resultsTable');
-  var tbody = table.getElementsByTagName('tbody')[0];
-  tbody.innerHTML = ''; // Clear existing rows
-  results.forEach(function(guitar) {
-    var row = tbody.insertRow();
-    Object.values(guitar).forEach(function(text) {
-      var cell = row.insertCell();
-      cell.textContent = text;
+    results.forEach(guitar => {
+        let row = tableBody.insertRow();
+        row.innerHTML = `
+            <td>${guitar.serialNumber}</td>
+            <td>${guitar.builder}</td>
+            <td>${guitar.model}</td>
+            <td>${guitar.type}</td>
+            <td>${guitar.backWood}</td>
+            <td>${guitar.topWoop}</td>
+            <td>${guitar.price}</td>
+        `;
     });
-  });
 }
   </script>
 </body>

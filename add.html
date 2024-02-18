@@ -64,26 +64,56 @@
   
 </style>
 <script>
-    function handleFormSubmit(event) {
-      event.preventDefault(); // Prevent the default form submission
-      
-      // Get form data
-      var formData = {
-        serialNumber: document.getElementById('serialNumber').value,
-        price: document.getElementById('price').value,
-        builder: document.getElementById('builder').value,
-        model: document.getElementById('model').value,
-        type: document.getElementById('type').value,
-        backWood: document.getElementById('backWood').value,
-        topWood: document.getElementById('topWood').value
-      };
-      
-      // Convert to JSON string
-      var jsonData = JSON.stringify(formData, null, 2);
-      
-      // Display the JSON data
-      alert(jsonData);
+    let host = "http://localhost:8018";
+
+async function addTheGuitar() {
+    let serialNumber = document.getElementById("serialNumber").value;
+    let price = document.getElementById("price").value;
+    let builder = document.getElementById("builder").value;
+    let model = document.getElementById("model").value;
+    let type = document.getElementById("type").value;
+    let backWood = document.getElementById("backWood").value;
+    let topWood = document.getElementById("topWood").value;
+
+    // Check if any field is empty
+    if (!serialNumber || !price || !builder || !model || !type || !backWood || !topWood) {
+        alert("Please enter a value for all fields.");
+        return;
     }
+
+    // Prepare guitar object
+    let guitar = {
+        serialNumber: serialNumber,
+        price: price,
+        builder: builder,
+        model: model,
+        type: type,
+        backWood: backWood,
+        topWood: topWood
+    };
+
+    // Prepare request
+    let request = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(guitar)
+    };
+
+    // Send request to backend API
+    try {
+        let response = await fetch(host + "/add", request);
+        if (response.ok) {
+            alert("The guitar was added to the system.");
+        } else {
+            alert("Something went wrong. Please try again or contact the customer support team.");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong. Please try again or contact the customer support team.");
+    }
+}
 </script>
 </head>
 <body>
@@ -97,7 +127,6 @@
   </div>
 </div>
 <div class="container">
-    <form onsubmit="handleFormSubmit(event)">
       <div class="form-group">
         <label for="serialNumber">Serial number:</label>
         <input type="text" id="serialNumber" name="serialNumber">
@@ -127,9 +156,8 @@
         <input type="text" id="topWood" name="topWood">
       </div>
       <div class="form-group">
-        <button onclick="handleFormSubmit()">Add the guitar</button>
+        <button onclick="addTheGuitar()">Add the guitar</button>
       </div>
-    </form>
   </div>
 </body>
 </html>
