@@ -129,7 +129,7 @@
     let topWoop = document.getElementById('topWoop').value;
 
     try {
-        let response = await fetch('http://localhost:8018/search?builder=' + builder +
+        let response = await fetch('https://guitar-inventory-manage.onrender.com/search?builder=' + builder +
             '&model=' + model + '&type=' + type + '&backWood=' + backWood + '&topWoop=' + topWoop);
         let data = await response.json();
         if (response.ok) {
